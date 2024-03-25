@@ -4,6 +4,7 @@ import { IoIosLogOut } from "react-icons/io";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { login } from "@/utils/functions/login";
 
 export const navRoutes = [
   {
@@ -42,17 +43,17 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="sticky left-0 top-0 z-[40] w-screen  flex flex-col items-center  overflow-x-hidden ">
+      <div className="sticky left-0 top-0 z-[40] w-full  flex flex-col items-center  overflow-x-hidden ">
         <div
           className={`${
             scrolling || isMenuOpen
-              ? "bg-[#4074c8]"
-              : "bg-[#A1C4FD] navbar bg-opacity-80"
-          } flex flex-row  items-center justify-between lg:justify-around max-lg:w-full  lg:min-w-[70vw] border border-white py-0 lg:rounded-b-xl  gap-20 overflow-hidden px-5  max-md:border-b  md:flex lg:px-10
+              ? "bg-[#0a2266]"
+              : "bg-[#0a2266] bg-opacity-80"
+          } flex flex-row  items-center justify-between lg:justify-around max-lg:w-full  w-[70vw]  py-0 lg:rounded-b-xl  gap-20 overflow-hidden px-5  max-md:border-b  md:flex lg:px-10
           `}
         >
           <div className="flex cursor-pointer items-center font-[Poppins] text-2xl font-bold text-gray-800">
-            <span className="mr-1 pt-2 text-3xl text-indigo-600">
+            <span className="mr-1 py-2 text-3xl text-indigo-600">
               <Link href={"/"}>
                 <img
                   src="/logo.jpg"
@@ -70,24 +71,24 @@ const Navbar = () => {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <span
-                className={`block h-[2px] w-7 bg-black transition-all duration-500
+                className={`block h-[2px] w-7 bg-white transition-all duration-500
               ${isMenuOpen ? "translate-y-2 rotate-45" : ""}
               `}
               ></span>
               <span
-                className={`block h-[2px] w-7 bg-black transition-all duration-500
+                className={`block h-[2px] w-7 bg-white transition-all duration-500
               ${isMenuOpen ? "translate-x-44 " : "translate-x-0"}
               `}
               ></span>
               <span
-                className={`block h-[2px] w-7 bg-black transition-all duration-500
+                className={`block h-[2px] w-7 bg-white transition-all duration-500
               ${isMenuOpen ? "-translate-y-2 -rotate-45" : ""}
               `}
               ></span>
             </div>
 
             <ul
-              className={`fixed top-16 right-0 my-5 z-[90] w-full border-black md:space-x-5 rounded-b-xl  max-md:border-b-2  bg-gray-50 pb-6 pl-4 transition-all duration-500 ease-in md:static md:z-auto md:flex md:w-auto md:items-center md:bg-transparent md:pb-0 md:pl-0  ${
+              className={`fixed top-16 right-0  z-[90] w-full border-black md:space-x-5 rounded-b-xl  max-md:border-b-2  bg-[#01071c] pb-6 pl-4 transition-all duration-500 ease-in md:static md:z-auto md:flex md:w-auto md:items-center md:bg-transparent md:pb-0 md:pl-0  ${
                 isMenuOpen ? "block top-0 right-0" : " hidden"
               }`}
             >
@@ -100,7 +101,7 @@ const Navbar = () => {
                   key={index}
                 >
                   <li
-                    className={`  font-semibold rounded-xl max-md:my-3 duration-200 ease-linear text-sm md:text-xs lg:text-sm xl:text-[16px]  text-black hover:bg-[#3c6ce6] py-1 px-2 hover:text-white md:my-0 md:ml-2 md:hover:scale-105  lg:ml-8  ${
+                    className={`  font-semibold rounded-xl max-md:my-3 duration-200 ease-linear text-sm md:text-xs lg:text-sm xl:text-[16px]  text-white hover:bg-[#3c6ce6] py-1 px-2 hover:text-white md:my-0 md:ml-2 md:hover:scale-105  lg:ml-8  ${
                       pathname === link.path && "text-white bg-[#3c6ce6]"
                     }`}
                   >
@@ -109,9 +110,9 @@ const Navbar = () => {
                 </Link>
               ))}
 
-              <button className="border-2 border-gray-500 rounded-full hover:bg-black duration-300 text-sm md:text-xs lg:text-sm xl:text-sm hover:text-white font-bold text-black px-5 lg:px-10 py-2">
+              <button onClick={login} className="border-2 border-gray-500 bg-[#3c6ce6] rounded-full hover:bg-opacity-40 duration-300 text-sm md:text-xs lg:text-sm xl:text-sm hover:text-white font-bold text-white px-5 lg:px-10 py-2">
                 <IoIosLogOut size={24} className="inline-block lg:hidden" />
-                <h1 className="lg:block hidden">Logout</h1>
+                <h1 className="lg:block hidden">Login</h1>
               </button>
             </ul>
           </div>
