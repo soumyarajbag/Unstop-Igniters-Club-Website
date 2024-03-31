@@ -32,11 +32,13 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const [userImg, setUserImg] = useState("");
+  const [showAdminDashboard, setShowAdminDashboard] = useState(false);
   const user = useUser((state) => state.user);
   const setUser = useUser((state) => state.setUser);
   const router = useRouter();
   const pathname = usePathname();
   const handleLogout = async () => {
+    setShowAdminDashboard(false);
     await supabase.auth.signOut();
     router.refresh();
 
@@ -48,9 +50,24 @@ const Navbar = () => {
       if (data) {
         setUserImg(data?.session?.user.user_metadata?.avatar_url);
       }
+      const { data: roleData } = await supabase
+      .from("roles")
+      .select()
+      .match({ id: data?.session?.user?.id });
+      let isSuperAdmin = false;
+      if (roleData) {
+        for (const obj of roleData!) {
+          if (obj.role === "admin") {
+            isSuperAdmin = true;
+          }
+        }
+     }
+     if (isSuperAdmin) {
+        setShowAdminDashboard(true);
+     }
     }
     readUserSession();
-  },[])
+  },[]) 
   useEffect(() => {
     
     const handleScroll = () => {
@@ -143,6 +160,23 @@ const Navbar = () => {
                   </li>
                 </Link>
               ))}
+
+{user && showAdminDashboard && (
+                <Link
+                  href={"/admin"}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  <li
+                   className={`  font-semibold rounded-xl max-md:my-3 duration-200 ease-linear text-sm md:text-xs lg:text-sm xl:text-[16px]  text-white hover:bg-[#3c6ce6] py-1 px-2 hover:text-white md:my-0 md:ml-2 md:hover:scale-105  lg:ml-8  ${
+                    pathname === "/admin" && "text-white bg-[#3c6ce6]"
+                  }`}
+                  >
+                    Admin
+                  </li>
+                </Link>
+              )}
                {user && (
                   <Link href={"/profile"}>
                     <Image
@@ -150,7 +184,7 @@ const Navbar = () => {
                       alt="user"
                       width={40}
                       height={40}
-                      className="rounded-full"
+                      className="rounded-full ml-8"
                     />
                   </Link>
                 )}
