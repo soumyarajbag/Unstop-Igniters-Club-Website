@@ -1,13 +1,28 @@
 "use client";
+import CoordinatorModal from "@/components/admin/CoordinatorModal";
 import Heading from "@/components/common/Heading";
 import EventCard from "@/components/events/EventCard";
+import { fetchEvents } from "@/utils/functions/fetchEvents";
+import { fetchEventsName } from "@/utils/functions/fetchEventsName";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoSearchSharp } from "react-icons/io5";
+import { PuffLoader } from "react-spinners";
 
 const page = () => {
+  const [events, setEvents] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const [eventName, setEventName] = useState<any>([]);
   const [coordinatorFormOpen, setCoordinatorFormOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const getAllEvents = async () => {
+      const data = await fetchEvents();
+      setEvents(data);
+      setLoading(false);
+    };
+    getAllEvents();
+  }, []);
   return (
     <div className="min-h-[80vh] w-full mx-auto flex flex-col items-center gap-5">
       <Heading text="Manage Events" />
@@ -27,13 +42,25 @@ const page = () => {
             Add Event
           </button>
           </Link>
-          <button className="text-[#1a8fdd] text-xl tracking-wider font-semibold font-sans border hover:invert border-[#1a8fdd]   rounded-xl px-5 py-2">
+          <button onClick={()=>setCoordinatorFormOpen(true)} className="text-[#1a8fdd] text-xl tracking-wider font-semibold font-sans border hover:invert border-[#1a8fdd]   rounded-xl px-5 py-2">
             Add Coordinator
           </button>
         </div>
       </div>
-      <EventCard />
-     
+      <div className="w-full flex flex-col flex-wrap items-center text-center justify-center gap-16">
+        {loading ? (
+          <PuffLoader color="#1a8fdd" size={50} />
+        ) : events && events.length > 0 ? (
+          events.map((event: any,index:number) => {
+            return <EventCard key={index} event={event} index={index} />;
+          })
+        ) : (
+          <h1 className="text-[#1a8fdd] font-semibold text-xl">
+            No Events Available !
+          </h1>
+        )}
+      </div>
+     <CoordinatorModal isOpen={coordinatorFormOpen} onClose={() => setCoordinatorFormOpen(false)} />
     </div>
   );
 };

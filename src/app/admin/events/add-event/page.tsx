@@ -3,6 +3,7 @@ import CoordinatorForm from "@/components/admin/CoordinatorForm";
 import LinkForm from "@/components/admin/LinkForm";
 import FormElement from "@/components/common/FormElement";
 import Heading from "@/components/common/Heading";
+import SelectInput from "@/components/common/SelectInput";
 import { addEvent } from "@/utils/functions/addEvent";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -42,6 +43,7 @@ const page = () => {
     links: [],
     venue: "",
     coordinators: [],
+    event_type: "",
   });
 
   const handleInputChange = (
@@ -142,7 +144,16 @@ const page = () => {
             onChange={(e: any) => handleInputChange(e)}
             type="text"
           />
+           <SelectInput 
+           id="event_type"
+           name="Event Type"
+           onChange={ (e: any) => handleInputChange(e)}
+            value={inputs.event_type}
+            options={["Submission", "Non-Submission"]}
+            />
+
         </div>
+       
         <div className="flex flex-col items-start gap-2 text-[#1a8fdd]">
           <label
             htmlFor={"links"}
