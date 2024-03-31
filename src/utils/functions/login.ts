@@ -8,5 +8,6 @@ export const login = async () => {
       redirectTo: location.origin + "/auth/callback?next=",
     },
   });
+  console.log(data)
   return data;
 };

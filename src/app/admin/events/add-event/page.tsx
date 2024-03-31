@@ -1,27 +1,41 @@
 "use client";
 import CoordinatorForm from "@/components/admin/CoordinatorForm";
+import LinkForm from "@/components/admin/LinkForm";
 import FormElement from "@/components/common/FormElement";
 import Heading from "@/components/common/Heading";
+import { addEvent } from "@/utils/functions/addEvent";
 import dynamic from "next/dynamic";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useMemo, useState } from "react";
+import {
+  TbSquareRoundedMinusFilled,
+  TbSquareRoundedPlusFilled,
+} from "react-icons/tb";
 import "react-quill/dist/quill.snow.css";
 
 export interface ICoordinator {
   name: string;
   email: string;
 }
+export interface ILink {
+  title: string;
+  url: string;
+}
 const page = () => {
+  const router = useRouter();
   const ReactQuill = useMemo(
     () => dynamic(() => import("react-quill"), { ssr: false }),
     []
   );
   const [isCoordinatorFormOpen, setIsCoordinatorFormOpen] = useState(false);
+  const [isLinkFormOpen, setIsLinkFormOpen] = useState(false);
   const [inputs, setInputs] = useState({
     name: "",
     minTeamSize: 0,
     maxTeamSize: 0,
-    date: "",
-    time: "",
+    participantsCount: 0,
+   schedule: "",
     description: "",
     rules: "",
     imagePath: "",
@@ -54,12 +68,25 @@ const page = () => {
       ),
     }));
   };
+  const handleAddLink = (link: ILink) => {
+    setInputs((prevInputs: any) => ({
+      ...prevInputs,
+      links: [...prevInputs.links, link],
+    }));
+  };
+  const handleRemoveLink = (index: number) => {
+    setInputs((prevInputs: any) => ({
+      ...prevInputs,
+      links: prevInputs.links.filter((_: any, idx: number) => idx !== index),
+    }));
+  };
   const handleQuillChange = (value: string, name: string) => {
     setInputs((prevInputs) => ({
       ...prevInputs,
       [name]: value,
     }));
   };
+
   return (
     <div className="flex flex-col items-center justify-center gap-5 w-[90%] md:w-[80%] mx-auto overflow-x-hidden">
       <Heading text="Add Event" />
@@ -73,16 +100,9 @@ const page = () => {
             type="text"
           />
           <FormElement
-            name="Date"
-            value={inputs.date}
-            id="date"
-            onChange={(e: any) => handleInputChange(e)}
-            type="text"
-          />
-          <FormElement
-            name="Time"
-            value={inputs.time}
-            id="time"
+            name="Schedule"
+            value={inputs.schedule}
+            id="schedule"
             onChange={(e: any) => handleInputChange(e)}
             type="text"
           />
@@ -101,6 +121,13 @@ const page = () => {
             onChange={(e: any) => handleInputChange(e)}
             type="number"
           />
+           <FormElement
+            name="Participation Count"
+            value={inputs.participantsCount.toString()}
+            id="participantsCount"
+            onChange={(e: any) => handleInputChange(e)}
+            type="number"
+          />
           <FormElement
             name="Venue"
             value={inputs.venue}
@@ -115,6 +142,39 @@ const page = () => {
             onChange={(e: any) => handleInputChange(e)}
             type="text"
           />
+        </div>
+        <div className="flex flex-col items-start gap-2 text-[#1a8fdd]">
+          <label
+            htmlFor={"links"}
+            className="font-semibold flex flex-row items-center gap-2  text-base md:text-lg"
+          >
+            Links :
+            {inputs.links.length == 0 && (
+              <div className="font-semibold">
+                <TbSquareRoundedPlusFilled
+                  onClick={() => setIsLinkFormOpen(true)}
+                  className="font-semibold cursor-pointer rounded-full"
+                  size={30}
+                />
+              </div>
+            )}
+          </label>
+          <div className="flex flex-col items-start">
+            {inputs.links.length > 0 &&
+              inputs.links.map((link: ILink, index: number) => {
+                return (
+                  <LinkChip
+                    name={link.title}
+                    link={link.url}
+                    index={index}
+                    handleAddLink={handleAddLink}
+                    handleRemoveLink={handleRemoveLink}
+                    isLinkFormOpen={isLinkFormOpen}
+                    setIsLinkFormOpen={setIsLinkFormOpen}
+                  />
+                );
+              })}
+          </div>
         </div>
         <div className="w-full flex flex-col lg:flex-row max-md:flex-wrap items-center gap-5">
           <div className="w-full lg:w-1/2 flex flex-col gap-5 text-[#1a8fdd]">
@@ -194,7 +254,10 @@ const page = () => {
         {/* <p className="text-red-500 font-semibold text-lg">{error}</p> */}
 
         <button
-          onClick={() => {}}
+          onClick={async() => {
+            await addEvent(inputs);
+            router.push("/admin/events");
+          }}
           className=" md:text-xl border-2 font-semibold border-[#1a8fdd] w-1/2 md:w-1/3 mx-auto rounded-full px-2 py-1 text-[#1a8fdd]"
         >
           Submit
@@ -206,8 +269,64 @@ const page = () => {
         onClose={() => setIsCoordinatorFormOpen(false)}
         onAddCoordinator={handleAddCoordinator}
       />
+      <LinkForm
+        isOpen={isLinkFormOpen}
+        onClose={() => setIsLinkFormOpen(false)}
+        handleAddLink={handleAddLink}
+      />
     </div>
   );
 };
 
+const LinkChip = ({
+  name,
+  link,
+  index,
+  handleAddLink,
+  handleRemoveLink,
+  isLinkFormOpen,
+  setIsLinkFormOpen,
+}: {
+  name: string;
+  link: string;
+  index: number;
+  isLinkFormOpen: boolean;
+  setIsLinkFormOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  handleAddLink: (link: ILink) => void;
+  handleRemoveLink: (index: number) => void;
+}) => {
+  return (
+    <div className="flex flex-row flex-wrap items-center gap-2 border px-4 py-1 rounded-xl border-[#1a8fdd]">
+      <h1 className="font-semibold text-sm text-white">{name}</h1>
+      <Link
+        target="_blank"
+        className="text-violet-300 font-medium text-xs"
+        href={link}
+      >
+        {link}
+      </Link>
+      <div className="flex flex-row items-center gap-1">
+        {
+          <TbSquareRoundedPlusFilled
+            onClick={() => setIsLinkFormOpen(true)}
+            className="font-semibold cursor-pointer rounded-full"
+            size={30}
+          />
+        }
+        {
+          <TbSquareRoundedMinusFilled
+            onClick={() => handleRemoveLink(index)}
+            className="font-semibold cursor-pointer rounded-full"
+            size={30}
+          />
+        }
+      </div>
+      <LinkForm
+        isOpen={isLinkFormOpen}
+        onClose={() => setIsLinkFormOpen(false)}
+        handleAddLink={handleAddLink}
+      />
+    </div>
+  );
+};
 export default page;

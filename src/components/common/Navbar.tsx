@@ -3,8 +3,11 @@ import React, { useEffect, useState } from "react";
 import { IoIosLogOut } from "react-icons/io";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { login } from "@/utils/functions/login";
+import { useUser } from "@/lib/store/user";
+import { supabase } from "@/lib/supabase-client";
+
 
 export const navRoutes = [
   {
@@ -25,22 +28,51 @@ export const navRoutes = [
   },
 ];
 const Navbar = () => {
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolling, setScrolling] = useState(false);
+  const [userImg, setUserImg] = useState("");
+  const user = useUser((state) => state.user);
+  const setUser = useUser((state) => state.setUser);
+  const router = useRouter();
   const pathname = usePathname();
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.refresh();
 
+    setUser(undefined);
+  };
+  useEffect(()=>{
+    const readUserSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data) {
+        setUserImg(data?.session?.user.user_metadata?.avatar_url);
+      }
+    }
+    readUserSession();
+  },[])
   useEffect(() => {
+    
     const handleScroll = () => {
       setScrolling(window.scrollY > 0);
     };
 
     window.addEventListener("scroll", handleScroll);
 
+
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+ 
+  }, [user]);
 
+  const handleLogin = async () => {
+   const data =  await login();
+    
+  };
+
+  
   return (
     <>
       <div className="sticky left-0 top-0 z-[40] w-full  flex flex-col items-center  overflow-x-hidden ">
@@ -55,9 +87,11 @@ const Navbar = () => {
           <div className="flex cursor-pointer items-center font-[Poppins] text-2xl font-bold text-gray-800">
             <span className="mr-1 py-2 text-3xl text-indigo-600">
               <Link href={"/"}>
-                <img
+                <Image
                   src="/logo.jpg"
-                  className="w-12 md:w-14 lg:w-16 rounded-full"
+                  width={50}
+                  height={50}
+                  className=" rounded-full"
                   alt=""
                 />
               </Link>
@@ -109,10 +143,34 @@ const Navbar = () => {
                   </li>
                 </Link>
               ))}
-
-              <button onClick={login} className="border-2 border-gray-500 bg-[#3c6ce6] rounded-full hover:bg-opacity-40 duration-300 text-sm md:text-xs lg:text-sm xl:text-sm hover:text-white font-bold text-white px-5 lg:px-10 py-2">
-                <IoIosLogOut size={24} className="inline-block lg:hidden" />
-                <h1 className="lg:block hidden">Login</h1>
+               {user && (
+                  <Link href={"/profile"}>
+                    <Image
+                      src={userImg}
+                      alt="user"
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
+                  </Link>
+                )}
+                  <button
+                  onClick={() => {
+                    {
+                      user ? handleLogout() : handleLogin();
+                    }
+                  }} className="border-2 border-gray-500 bg-[#3c6ce6] rounded-full hover:bg-opacity-40 duration-300 text-sm md:text-xs lg:text-sm xl:text-sm hover:text-white font-bold text-white px-5 lg:px-10 py-2">
+                {user ? (
+                    <>
+                      <IoIosLogOut
+                        size={24}
+                        className="inline-block lg:hidden"
+                      />
+                      <h1 className="lg:block hidden">Logout</h1>
+                    </>
+                  ) : (
+                    "Login"
+                  )}
               </button>
             </ul>
           </div>

@@ -32,7 +32,7 @@ const FormElement = ({
         name={id}
         disabled={disabled}
         id={id}
-        className={`w-[${width}] border-[#1a8fdd] border px-2 py-1 max-md:w-full rounded-xl bg-transparent`}
+        className={`w-[${width}] border-[#1a8fdd] border text-white px-2 py-1 max-md:w-full rounded-xl bg-transparent`}
       />
     </div>
   );

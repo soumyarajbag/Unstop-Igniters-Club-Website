@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/common/Navbar";
 import Cursor from "@/components/common/Cursor";
 import Footer from "@/components/common/Footer";
-import Script from "next/script";
+import SessionProvider from "@/components/common/SessionProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,8 +25,7 @@ export default function RootLayout({
         <Cursor />
         {children}
         <Footer />
-        <script src="three.r134.min.js"></script>
-        <script src="vanta.net.min.js"></script>
+        <SessionProvider />
       </body>
     </html>
   );

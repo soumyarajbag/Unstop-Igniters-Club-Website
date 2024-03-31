@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { BsFacebook, BsInstagram, BsLinkedin } from "react-icons/bs";
+import { FaSchoolCircleExclamation } from "react-icons/fa6";
 import { TypeAnimation } from "react-type-animation";
+import { VerticalTimeline, VerticalTimelineElement } from "react-vertical-timeline-component";
 
 const Hero = () => {
   const [joinModal, setJoinModal] = useState(false);
@@ -82,6 +84,8 @@ const Hero = () => {
         <img className="w-48  lg:w-80  rounded-full" src={"/logo.jpg"} alt="" />
       </div>
       {/* {joinModal && <JoinModal closeJoinModal={closeJoinModal} />} */}
+
+      
     </div>
   );
 };
