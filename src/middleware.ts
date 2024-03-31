@@ -36,9 +36,9 @@ export async function middleware(request: NextRequest) {
     let superAdmin = false;
     let eventCoordinator = false;
     for (const obj of userRoles.data!) {
-      if (obj.role === "super_admin") {
+      if (obj.role === "admin") {
         superAdmin = true;
-      } else if (obj.role === "event_coordinator") {
+      } else if (obj.role === "coordinator") {
         eventCoordinator = true;
       }
     }
