@@ -1,7 +1,7 @@
 import AdminWrapper from "@/components/admin/AdminWrapper";
+import CategoryChip from "@/components/admin/CategoryChip";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { CategoryChip } from "./users/page";
 
 const inter = Inter({ subsets: ["latin"] });
 
