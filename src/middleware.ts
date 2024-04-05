@@ -26,6 +26,7 @@ export async function middleware(request: NextRequest) {
       .select("role")
       .eq("id", session?.user.id);
 
+
     if (
       !checkUserDetails(userDetails?.data?.[0]) &&
       url.pathname !== "/profile"
@@ -33,13 +34,16 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/profile", request.url));
     }
 
+
     let superAdmin = false;
     let eventCoordinator = false;
-    for (const obj of userRoles.data!) {
-      if (obj.role === "admin") {
-        superAdmin = true;
-      } else if (obj.role === "coordinator") {
-        eventCoordinator = true;
+    if (userRoles.data && Array.isArray(userRoles.data)) {
+      for (const obj of userRoles.data) {
+        if (obj.role === "admin") {
+          superAdmin = true;
+        } else if (obj.role === "coordinator") {
+          eventCoordinator = true;
+        }
       }
     }
 

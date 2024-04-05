@@ -154,6 +154,15 @@ const EventRegModal = ({
       toast.error("Registration Failed !");
     }
   };
+  
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isOpen]);
+
   return (
     <>
       {isOpen && (
@@ -163,8 +172,8 @@ const EventRegModal = ({
               maxTeamMember > 1 && eventDetails.registration_through_portal
                 ? "h-[80vh] md:h-[70vh]"
                 : eventDetails.registration_through_portal
-                ? "h-[70vh]"
-                : ""
+                ? "h-[60vh]"
+                : "" 
             }  w-[95%] flex flex-col items-start border-y border-[#1a8fdd] lg:w-1/3 lg:px-16 lg:py-8`}
           >
             <div className="w-full flex flex-row mb-2 items-center text-[#1a8fdd] justify-between">

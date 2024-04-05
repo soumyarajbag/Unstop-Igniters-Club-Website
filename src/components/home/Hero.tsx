@@ -1,11 +1,13 @@
 "use client";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import React, { useState } from "react";
 import { BsFacebook, BsInstagram, BsLinkedin } from "react-icons/bs";
 import { FaSchoolCircleExclamation } from "react-icons/fa6";
 import { TypeAnimation } from "react-type-animation";
 import { VerticalTimeline, VerticalTimelineElement } from "react-vertical-timeline-component";
+import { AuroraBackground } from "../ui/aurora-background";
 
 const Hero = () => {
   const [joinModal, setJoinModal] = useState(false);
@@ -17,7 +19,20 @@ const Hero = () => {
   };
 
   return (
-    <div className="lg:h-[60vh] flex flex-col-reverse md:flex-row max-lg:flex-wrap-reverse justify-evenly items-center gap-12 w-[80%] md:w-[80%]  lg:w-[70%] 2xl:w-[60%]">
+    // <AuroraBackground  className="bg-[#01071c]">
+    // <motion.div
+    //   initial={{ opacity: 0.0, y: 40 }}
+    //   whileInView={{ opacity: 1, y: 0 }}
+    
+    //   transition={{
+    //     delay: 0.3,
+    //     duration: 0.8,
+    //     ease: "easeInOut",
+    //   }}
+    //   className="mx-auto flex flex-col items-center justify-center w-full"
+    // >
+    <div className="lg:h-[60vh] max-md:mt-10 flex flex-col-reverse md:flex-row max-lg:flex-wrap-reverse justify-evenly items-center gap-12 w-[80%] md:w-[80%]  lg:w-[70%] 2xl:w-[60%]">
+      
       <div className="flex flex-col gap-8 w-full">
         <TypeAnimation
           sequence={[
@@ -46,12 +61,14 @@ const Hero = () => {
           club also facilitates and collaborates with entities on-campus and
           off-campus to create opportunities for students.
           <div className="flex flex-wrap flex-row justify-center mx-auto mt-10  lg:w-auto gap-5 md:gap-10  items-center">
-            <button
-              onClick={openJoinModal}
+            <Link 
+            href={"https://chat.whatsapp.com/DqHw7qdtqXBCZg1qgZMvao"}
+            target="_blank"
+            
               className="p-2 xl:px-4 xl:py-2 rounded-full bg-[#1a8fdd] font-bold text-lg text-white hover:bg-white hover:text-[#1a8fdd]"
             >
               Join Us
-            </button>
+            </Link>
             <Link
               href="https://www.facebook.com/profile.php?id=100090192732723"
               target="_blank"
@@ -80,13 +97,15 @@ const Hero = () => {
         </div>
       </div>
 
-      <div>
+      <div className="shadow">
         <img className="w-48  lg:w-80  rounded-full" src={"/logo.jpg"} alt="" />
       </div>
       {/* {joinModal && <JoinModal closeJoinModal={closeJoinModal} />} */}
 
-      
+  
     </div>
+    // </motion.div>
+    // </AuroraBackground>
   );
 };
 

@@ -20,12 +20,9 @@ export const navRoutes = [
   },
   {
     name: "Team",
-    path: "/team",
+    path: "/team/Core",
   },
-  {
-    name: "Contact Us",
-    path: "/contacts",
-  },
+
 ];
 const Navbar = () => {
 
@@ -38,11 +35,14 @@ const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const handleLogout = async () => {
-    setShowAdminDashboard(false);
+   
     await supabase.auth.signOut();
-    router.refresh();
-
+    setShowAdminDashboard(false);
     setUser(undefined);
+    setUserImg("");
+    router.refresh();
+ 
+    
   };
   useEffect(()=>{
     const readUserSession = async () => {
@@ -161,7 +161,7 @@ const Navbar = () => {
                 </Link>
               ))}
 
-{user && showAdminDashboard && (
+{user!= undefined && showAdminDashboard && (
                 <Link
                   href={"/admin"}
                   onClick={() => {
@@ -177,14 +177,14 @@ const Navbar = () => {
                   </li>
                 </Link>
               )}
-               {user && (
-                  <Link href={"/profile"}>
+               {user != undefined && (
+                  <Link href={"/profile"} onClick={()=> setIsMenuOpen(false)}>
                     <Image
                       src={userImg}
                       alt="user"
                       width={40}
                       height={40}
-                      className="rounded-full ml-8"
+                      className="rounded-full ml-4 lg:ml-8"
                     />
                   </Link>
                 )}
@@ -192,8 +192,9 @@ const Navbar = () => {
                   onClick={() => {
                     {
                       user ? handleLogout() : handleLogin();
+                      setIsMenuOpen(false);
                     }
-                  }} className="border-2 border-gray-500 bg-[#3c6ce6] rounded-full hover:bg-opacity-40 duration-300 text-sm md:text-xs lg:text-sm xl:text-sm hover:text-white font-bold text-white px-5 lg:px-10 py-2">
+                  }} className="border-2 max-md:mt-5 border-gray-500 bg-[#3c6ce6] rounded-full hover:bg-opacity-40 duration-300 text-sm md:text-xs lg:text-sm xl:text-sm hover:text-white font-bold text-white px-5 lg:px-10 py-2">
                 {user ? (
                     <>
                       <IoIosLogOut

@@ -13,7 +13,7 @@ const AdminTab = ({ text, link }: { text: string; link: string }) => {
 const AdminWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-5">
-      <div className="flex flex-row items-center gap-5">
+      <div className="flex flex-row flex-wrap justify-center mx-auto items-center gap-5">
         <AdminTab text="Events" link="/admin/events" />
         <AdminTab text="Users" link="/admin/users" />
         <AdminTab text="Feedback" link="/admin/feedback" />
