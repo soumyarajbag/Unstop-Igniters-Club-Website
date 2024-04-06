@@ -45,7 +45,10 @@ const Footer = () => {
             </h1>
             <div className="flex flex-wrap justify-center items-center flex-row gap-2 text-md xl:text-lg font-semibold">
               <h1>Shrayanendra Nath Mandal : </h1>
-              <Link href={`tel: +91 8017067052`} className="hover:text-green-500 cursor-pointer">
+              <Link
+                href={`tel: +91 8017067052`}
+                className="hover:text-green-500 cursor-pointer"
+              >
                 +91 8017067052
               </Link>
             </div>
@@ -84,16 +87,17 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-row text-white bg-[#01071c] flex-wrap justify-evenly ">
-          <div className="flex flex-row gap-2 text-lg">
+          <div className="flex flex-row gap-2 text-md">
             © by
             <h1 className="text-[#0addf0] font-semibold">
-              Unstop Igniters Club of RCCIIT 2023
+              Unstop Igniters Club of RCCIIT 2024
             </h1>
           </div>
-          <div className="flex flex-row flex-wrap items-center justify-center gap-2 text-lg">
+          <div className="flex flex-row flex-wrap items-center justify-center gap-2 text-md">
             <h1>Made with ❤️ by</h1>
             <Link
-              href="https://github.com/soumyarajbag"
+              target="_blank"
+              href="https://linkedin.com/in/soumyarajbag"
               className="text-[#0addf0] font-semibold"
             >
               Soumyaraj Bag
