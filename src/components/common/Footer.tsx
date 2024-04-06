@@ -31,7 +31,7 @@ const Footer = () => {
           <div className="flex flex-row xl:flex-col pt-2 xl:pt-0 items-center justify-center gap-2">
             <img
               className="h-[100px] w-[100px] xl:h-[150px] xl:w-[150px] rounded-full"
-              src={"/logo.jpg"}
+              src={"https://i.postimg.cc/NF4JW6RT/logo.jpg"}
               alt=""
             />
             <h1 className="text-[#0addf0] font-bold text-md xl:text-lg">
@@ -93,7 +93,7 @@ const Footer = () => {
           <div className="flex flex-row flex-wrap items-center justify-center gap-2 text-lg">
             <h1>Made with ❤️ by</h1>
             <Link
-              href="https://www.linkedin.com/in/soumyaraj-bag-037486135/"
+              href="https://github.com/soumyarajbag"
               className="text-[#0addf0] font-semibold"
             >
               Soumyaraj Bag

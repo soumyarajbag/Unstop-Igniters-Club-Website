@@ -7,6 +7,7 @@ import { BeatLoader } from "react-spinners";
 const page = () => {
   const [loading, setLoading] = useState(true);
 
+
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -15,7 +16,7 @@ const page = () => {
  
   return (
     <>
-    {loading ?<div className="flex flex-col items-center gap-20 justify-center h-screen ">
+    {loading ?<div  className="flex flex-col items-center gap-20 justify-center h-screen ">
       <div className="loading-logo shadow">
       <img id="rotating-frame" src={'/logo.jpg'} alt="" className="h-[200px] w-[200px] rounded-full " />
       </div>
