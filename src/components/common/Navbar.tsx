@@ -8,7 +8,6 @@ import { login } from "@/utils/functions/login";
 import { useUser } from "@/lib/store/user";
 import { supabase } from "@/lib/supabase-client";
 
-
 export const navRoutes = [
   {
     name: "Home",
@@ -22,10 +21,8 @@ export const navRoutes = [
     name: "Team",
     path: "/team/Core",
   },
-
 ];
 const Navbar = () => {
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const [userImg, setUserImg] = useState("");
@@ -35,25 +32,22 @@ const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const handleLogout = async () => {
-   
     await supabase.auth.signOut();
+    router.push("/");
     setShowAdminDashboard(false);
     setUser(undefined);
     setUserImg("");
-    router.push('/');
- 
-    
   };
-  useEffect(()=>{
+  useEffect(() => {
     const readUserSession = async () => {
       const { data } = await supabase.auth.getSession();
       if (data) {
         setUserImg(data?.session?.user.user_metadata?.avatar_url);
       }
       const { data: roleData } = await supabase
-      .from("roles")
-      .select()
-      .match({ id: data?.session?.user?.id });
+        .from("roles")
+        .select()
+        .match({ id: data?.session?.user?.id });
       let isSuperAdmin = false;
       if (roleData) {
         for (const obj of roleData!) {
@@ -61,35 +55,29 @@ const Navbar = () => {
             isSuperAdmin = true;
           }
         }
-     }
-     if (isSuperAdmin) {
+      }
+      if (isSuperAdmin) {
         setShowAdminDashboard(true);
-     }
-    }
+      }
+    };
     readUserSession();
-  },[]) 
+  }, []);
   useEffect(() => {
-    
     const handleScroll = () => {
       setScrolling(window.scrollY > 0);
     };
 
     window.addEventListener("scroll", handleScroll);
 
-
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
- 
   }, [user]);
 
   const handleLogin = async () => {
-   const data =  await login();
-    
+    const data = await login();
   };
 
-  
   return (
     <>
       <div className="sticky left-0 top-0 z-[40] w-full  flex flex-col items-center  overflow-x-hidden ">
@@ -161,7 +149,7 @@ const Navbar = () => {
                 </Link>
               ))}
 
-{user!= undefined && showAdminDashboard && (
+              {user != undefined && showAdminDashboard && (
                 <Link
                   href={"/admin"}
                   onClick={() => {
@@ -169,43 +157,42 @@ const Navbar = () => {
                   }}
                 >
                   <li
-                   className={`  font-semibold rounded-xl max-md:my-3 duration-200 ease-linear text-sm md:text-xs lg:text-sm xl:text-[16px]  text-white hover:bg-[#3c6ce6] py-1 px-2 hover:text-white md:my-0 md:ml-2 md:hover:scale-105  lg:ml-8  ${
-                    pathname === "/admin" && "text-white bg-[#3c6ce6]"
-                  }`}
+                    className={`  font-semibold rounded-xl max-md:my-3 duration-200 ease-linear text-sm md:text-xs lg:text-sm xl:text-[16px]  text-white hover:bg-[#3c6ce6] py-1 px-2 hover:text-white md:my-0 md:ml-2 md:hover:scale-105  lg:ml-8  ${
+                      pathname === "/admin" && "text-white bg-[#3c6ce6]"
+                    }`}
                   >
                     Admin
                   </li>
                 </Link>
               )}
-               {user != undefined && (
-                  <Link href={"/profile"} onClick={()=> setIsMenuOpen(false)}>
-                    <Image
-                      src={userImg}
-                      alt="user"
-                      width={40}
-                      height={40}
-                      className="rounded-full ml-4 lg:ml-8"
-                    />
-                  </Link>
-                )}
-                  <button
-                  onClick={() => {
-                    {
-                      user ? handleLogout() : handleLogin();
-                      setIsMenuOpen(false);
-                    }
-                  }} className="border-2 max-md:mt-5 border-gray-500 bg-[#3c6ce6] rounded-full hover:bg-opacity-40 duration-300 text-sm md:text-xs lg:text-sm xl:text-sm hover:text-white font-bold text-white px-5 lg:px-10 py-2">
+              {user != undefined && (
+                <Link href={"/profile"} onClick={() => setIsMenuOpen(false)}>
+                  <Image
+                    src={userImg}
+                    alt="user"
+                    width={40}
+                    height={40}
+                    className="rounded-full ml-4 lg:ml-8"
+                  />
+                </Link>
+              )}
+              <button
+                onClick={() => {
+                  {
+                    user ? handleLogout() : handleLogin();
+                    setIsMenuOpen(false);
+                  }
+                }}
+                className="border-2 max-md:mt-5 border-gray-500 bg-[#3c6ce6] rounded-full hover:bg-opacity-40 duration-300 text-sm md:text-xs lg:text-sm xl:text-sm hover:text-white font-bold text-white px-5 lg:px-10 py-2"
+              >
                 {user ? (
-                    <>
-                      <IoIosLogOut
-                        size={24}
-                        className="inline-block lg:hidden"
-                      />
-                      <h1 className="lg:block hidden">Logout</h1>
-                    </>
-                  ) : (
-                    "Login"
-                  )}
+                  <>
+                    <IoIosLogOut size={24} className="inline-block lg:hidden" />
+                    <h1 className="lg:block hidden">Logout</h1>
+                  </>
+                ) : (
+                  "Login"
+                )}
               </button>
             </ul>
           </div>
