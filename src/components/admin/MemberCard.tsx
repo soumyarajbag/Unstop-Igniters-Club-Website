@@ -23,7 +23,7 @@ export function MemberCard({ memberDetails }: { memberDetails: any }) {
           {memberDetails?.role}
         </h1>
         <div className="flex flex-row items-center gap-5 mt-3">
-          {
+          {memberDetails?.social_links?.github &&
             <Link
               href={memberDetails?.social_links?.github}
               target="_blank"
@@ -33,7 +33,7 @@ export function MemberCard({ memberDetails }: { memberDetails: any }) {
               <BsGithub className="h-[25px] w-[25px]" />
             </Link>
           }
-          {
+          {memberDetails?.social_links?.linkedin &&
             <Link
               href={memberDetails?.social_links?.linkedin}
               target="_blank"
@@ -43,7 +43,7 @@ export function MemberCard({ memberDetails }: { memberDetails: any }) {
               <BsLinkedin className="h-[25px] w-[25px]" />
             </Link>
           }
-          {
+          {memberDetails?.social_links?.instagram &&
             <Link
               href={memberDetails?.social_links?.instagram}
               target="_blank"

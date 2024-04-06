@@ -5,8 +5,10 @@ import { supabase } from "@/lib/supabase-client";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FadeIn } from "react-slide-fade-in";
+import { PuffLoader } from "react-spinners";
 
 const page = () => {
+  const [loading, setLoading] = useState(true);
   const params = useParams();
   const [team, setTeam] = useState<any>([]);
   useEffect(() => {
@@ -17,6 +19,7 @@ const page = () => {
           .select("*")
           .eq("category_name", decodeURIComponent(params.category.toString()));
         setTeam(data!);
+        setLoading(false);
       } catch (e) {
         console.log(e);
       }
@@ -26,7 +29,9 @@ const page = () => {
   return (
     <div className="flex flex-col flex-wrap mx-auto justify-center items-center w-full gap-10 px-10 mt-5">
       <Heading text={decodeURIComponent(params.category.toString())} />
-      <div className="flex flex-row flex-wrap mx-auto justify-center items-center gap-20 px-10 ">
+      {loading ? 
+      <PuffLoader color="#1a8fdd" size={100} />
+      : <div className="flex flex-row flex-wrap mx-auto justify-center w-full items-center gap-20 px-10 ">
         {team.length > 0 && team.map((member: any, index: number) => {
           return (
             <FadeIn 
@@ -40,7 +45,7 @@ const page = () => {
           </FadeIn>
           )
         })}
-      </div>
+      </div>}
     </div>
   );
 };
