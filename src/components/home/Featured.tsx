@@ -14,7 +14,7 @@ const features = [
     image: "/home/comm.png",
     title: "Community Engagement",
     description:
-      "o engage with the college community and contribute to social and educational initiatives for the betterment of all.",
+      "To engage with the college community and contribute to social and educational initiatives for the betterment of all.",
   },
   {
     image: "/home/entrepreneur.png",
