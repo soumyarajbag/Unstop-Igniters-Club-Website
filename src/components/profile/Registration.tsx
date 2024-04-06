@@ -201,7 +201,7 @@ const Registration = () => {
             )}
             <button
               onClick={handleSubmit}
-              className="bg-[#1a8fdd] mx-auto text-white px-10 py-3 hover:text-[#1a8fdd] hover:bg-transparent border border-[#1a8fdd] rounded-xl font-semibold"
+              className="bg-[#1a8fdd] mt-5 mx-auto text-white px-10 py-3 hover:text-[#1a8fdd] hover:bg-transparent border border-[#1a8fdd] rounded-xl font-semibold"
             >
               Register
             </button>
@@ -209,7 +209,7 @@ const Registration = () => {
         </div>
         <div className="w-full lg:w-[40%] mx-auto">
           <Image
-            src="/profile/unstop.png"
+            src="https://i.postimg.cc/Z5hxz7Td/unstop.png"
             className="mx-auto py-10"
             width={500}
             height={500}

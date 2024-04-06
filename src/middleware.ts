@@ -11,7 +11,9 @@ export async function middleware(request: NextRequest) {
   const url = new URL(request.nextUrl);
 
   if (!session) {
-    if (url.pathname.startsWith("/admin")) {
+    if (url.pathname.startsWith("/admin") ||
+    url.pathname.startsWith("/profile")  
+  ) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }

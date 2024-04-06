@@ -40,7 +40,7 @@ const Navbar = () => {
     setShowAdminDashboard(false);
     setUser(undefined);
     setUserImg("");
-    router.refresh();
+    router.push('/');
  
     
   };
@@ -105,7 +105,7 @@ const Navbar = () => {
             <span className="mr-1 py-2 text-3xl text-indigo-600">
               <Link href={"/"}>
                 <Image
-                  src="/logo.jpg"
+                  src="https://i.postimg.cc/NF4JW6RT/logo.jpg"
                   width={50}
                   height={50}
                   className=" rounded-full"
