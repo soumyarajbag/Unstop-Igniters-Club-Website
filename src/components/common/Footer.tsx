@@ -44,12 +44,12 @@ const Footer = () => {
               Contact Us :
             </h1>
             <div className="flex flex-wrap justify-center items-center flex-row gap-2 text-md xl:text-lg font-semibold">
-              <h1>Shrayanendra Nath Mandal : </h1>
+              <h1>Soumyaraj Bag : </h1>
               <Link
                 href={`tel: +91 8017067052`}
                 className="hover:text-green-500 cursor-pointer"
               >
-                +91 8017067052
+                +91 8337045160
               </Link>
             </div>
             <div className="flex flex-col items-center gap-5">
